@@ -5,7 +5,7 @@ import {similarComments} from './create-comments.js';
 const generatePhotoId = createIdGenerator();
 const generateUrlId = createIdGenerator();
 
-const createPhotos = () => ({
+const createPhoto = () => ({
   id: generatePhotoId(),
   url: `photos/${ generateUrlId() }.jpg`,
   description: getRandomArrayElement(DESCRIPTION),
@@ -13,6 +13,6 @@ const createPhotos = () => ({
   comments: similarComments(),
 });
 
-const similarPhotos = Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhotos);
+const createPhotos = () => Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhoto);
 
-export {similarPhotos};
+export {createPhotos};

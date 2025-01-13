@@ -1,4 +1,4 @@
-import {similarPhotos} from './create-photos.js';
+import {createPhotos} from './create-photos.js';
 
 
-JSON.stringify(similarPhotos, null, 2);
+JSON.stringify(createPhotos, null, 2);

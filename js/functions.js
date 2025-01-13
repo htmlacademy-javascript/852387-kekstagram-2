@@ -36,19 +36,18 @@ const extractNumber = (text) => {
   return parseInt(result, 10);
 };
 
-const isMeetingAtWork = (startOfWork, endOfWork, startOfMeeting, timeMeeting) => {
-  const [hoursStart, minutesStart] = startOfWork.split(':');
-  const [hoursEnd, minutesEnd] = endOfWork.split(':');
-  const [hoursMeet, minutesMeet] = startOfMeeting.split(':');
+const getMinutes = (timeInString) => {
+  const [hours, minutes] = timeInString.split(':');
+  return Number(hours) * 60 + Number(minutes);
+};
 
-  const startOfMeetingInMinutes = Number(hoursMeet) * 60 + Number(minutesMeet);
-  const startOfWorkInMinutes = Number(hoursStart) * 60 + Number(minutesStart);
-  const endOfWorkInMinutes = Number(hoursEnd) * 60 + Number(minutesEnd);
+const isMeetingAtWork = (startWork, endWork, startMeeting, timeMeeting) => {
 
-  const diffHoursStart = startOfMeetingInMinutes - startOfWorkInMinutes;
+  const endOfMeeting = getMinutes(startMeeting) + timeMeeting;
+  const diffTimeStart = getMinutes(startMeeting) - getMinutes(startWork);
+  const diffTimeEnd = getMinutes(endWork) - endOfMeeting;
 
-  const diffHoursEnd = endOfWorkInMinutes - (startOfMeetingInMinutes + timeMeeting);
-  return (diffHoursStart >= 0 && diffHoursEnd >= 0);
+  return (diffTimeStart >= 0 && diffTimeEnd >= 0);
 };
 
 extractNumber((2023)); // 2023
