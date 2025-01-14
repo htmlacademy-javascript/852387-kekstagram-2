@@ -22,18 +22,28 @@ console.log(choosePhoto);
     const likesСount = bigPicture.querySelector('.likes-count');
     likesСount.textContent = choosePhoto.likes;
 
-    const commentShowCount = bigPicture.querySelector('.social__comment-shown-count');
-    const commentsSown = bigPicture.querySelectorAll('.social__comments li');
-    commentShowCount.textContent = commentsSown.length;
 
-    const commentTotalCount = bigPicture.querySelector('.social__comment-total-count');
+
+    const commentsCount = bigPicture.querySelector('.social__comment-count');
+    const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
+    const commentsSown = bigPicture.querySelectorAll('.social__comments li');
+    commentShownCount.textContent = commentsSown.length;
+
+    const commentTotalCount = commentsCount.querySelector('.social__comment-total-count');
     commentTotalCount.textContent = choosePhoto.comments.length;
+
+    commentsCount.classList.add('hidden');
 
     const captionPicture = bigPicture.querySelector('.social__caption');
     captionPicture.textContent = choosePhoto.description;
 
     bigPicture.classList.remove('hidden');
 
+    const commentsLoader = bigPicture.querySelector('.comments-loader');
+    commentsLoader.classList.add('hidden');
+
+    const body = document.querySelector('body');
+    body.classList.add('modal-open');
 
   });
 });
