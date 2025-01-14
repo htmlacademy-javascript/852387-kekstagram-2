@@ -1,6 +1,7 @@
 import { gallery } from './gallery.js';
 import {isEscapeKey, isEnterKey} from './util.js';
 
+import { getComment } from './comments.js';
 
 //const picturesContainer = document.querySelector('.pictures');
 
@@ -44,6 +45,9 @@ console.log(choosePhoto);
 
     const body = document.querySelector('body');
     body.classList.add('modal-open');
+
+
+    getComment(choosePhoto.comments, commentsSown.length);
 
   });
 });
