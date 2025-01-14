@@ -1,53 +1,28 @@
-import { gallery } from './gallery.js';
-import {isEscapeKey, isEnterKey} from './util.js';
-
 import { getComment } from './comments.js';
 
-//const picturesContainer = document.querySelector('.pictures');
-
-
-const pictures = document.querySelectorAll('.picture');
 
 const bigPicture = document.querySelector('.big-picture');
+const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
+const likesСount = bigPicture.querySelector('.likes-count');
+const commentsCount = bigPicture.querySelector('.social__comment-count');
+const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
+const commentsSown = bigPicture.querySelectorAll('.social__comments li');
+const commentTotalCount = commentsCount.querySelector('.social__comment-total-count');
+const captionPicture = bigPicture.querySelector('.social__caption');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
 
-pictures.forEach((photo) => {
+const renderBigPicture = function ({url, description, likes, comments}) {
 
-  photo.addEventListener('click', (evt) => {
-    evt.preventDefault();
+  bigPictureImg.src = url;
+  likesСount.textContent = likes;
+  commentShownCount.textContent = commentsSown.length;
+  commentTotalCount.textContent = comments.length;
+  commentsCount.classList.add('hidden');
+  captionPicture.textContent = description;
+  commentsLoader.classList.add('hidden');
+  bigPicture.classList.remove('hidden');
 
-    const choosePhoto = gallery.find((item) => item.id === Number(photo.id));
-console.log(choosePhoto);
-    const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-    bigPictureImg.src = choosePhoto.url;
+  getComment(comments, commentsSown.length);
+};
 
-    const likesСount = bigPicture.querySelector('.likes-count');
-    likesСount.textContent = choosePhoto.likes;
-
-
-
-    const commentsCount = bigPicture.querySelector('.social__comment-count');
-    const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
-    const commentsSown = bigPicture.querySelectorAll('.social__comments li');
-    commentShownCount.textContent = commentsSown.length;
-
-    const commentTotalCount = commentsCount.querySelector('.social__comment-total-count');
-    commentTotalCount.textContent = choosePhoto.comments.length;
-
-    commentsCount.classList.add('hidden');
-
-    const captionPicture = bigPicture.querySelector('.social__caption');
-    captionPicture.textContent = choosePhoto.description;
-
-    bigPicture.classList.remove('hidden');
-
-    const commentsLoader = bigPicture.querySelector('.comments-loader');
-    commentsLoader.classList.add('hidden');
-
-    const body = document.querySelector('body');
-    body.classList.add('modal-open');
-
-
-    getComment(choosePhoto.comments, commentsSown.length);
-
-  });
-});
+export { renderBigPicture };

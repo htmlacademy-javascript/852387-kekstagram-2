@@ -1,6 +1,6 @@
-//import { gallery } from "./gallery";
 
 const commentContainer = document.querySelector('.social__comments');
+
 const getComment = function (coments, count) {
 
   const commentList = commentContainer.querySelectorAll('.social__comment');
