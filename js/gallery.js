@@ -13,6 +13,6 @@ const createPhoto = () => ({
   comments: similarComments(),
 });
 
-const createPhotos = () => Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhoto);
+const gallery = Array.from({length: SIMILAR_PHOTOS_COUNT}, createPhoto);
 
-export {createPhotos};
+export {gallery};
