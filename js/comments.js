@@ -1,28 +1,36 @@
 
 const commentContainer = document.querySelector('.social__comments');
-const commentList = commentContainer.querySelectorAll('.social__comment');
+const commentSample = commentContainer.querySelector('.social__comment');
 
-const getComments
 
-/*
-const getComment = function (coments, count) {
+const renderCommit = function ({avatar, message, name}) {
+  const commentElement = commentSample.cloneNode(true);
+  const img = commentElement.querySelector('.social__picture');
+  img.src = `${avatar}`;
+  img.alt = `${name}`;
+  const text = commentElement.querySelector('.social__text');
+  text.textContent = `${message}`;
 
-  if (coments.length === 0) {
-    count = 0;
-    commentContainer.innerHTML = '';
+  return commentElement;
+};
+
+const getComments = function (comments, count) {
+
+  const commentsListFragment = document.createDocumentFragment();
+
+  if (comments.length < count) {
+    count = comments.length;
   }
 
   for (let i = 0; i < count; i++) {
-    const commentListItem = commentList[i];
-    const currentComent = coments[i];
+    const currentComent = comments[i];
+    const renderCommitElement = renderCommit(currentComent);
 
-    const img = commentListItem.querySelector('.social__picture');
-    img.src = `${currentComent.avatar}`;
-    img.alt = `${currentComent.name}`;
-
-    const text = commentListItem.querySelector('.social__text');
-    text.textContent = `${currentComent.message}`;
+    commentsListFragment.appendChild(renderCommitElement);
   }
+
+  commentContainer.innerHTML = '';
+  commentContainer.appendChild(commentsListFragment);
 };
- */
+
 export { getComments };

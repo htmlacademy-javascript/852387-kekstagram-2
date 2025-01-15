@@ -18,7 +18,7 @@ function createIdGenerator () {
 
 function createCountCommentsLoader () {
 
-  let lastGeneratedCount = 0;
+  let lastGeneratedCount = 5;
 
   return function () {
     lastGeneratedCount += 5;
