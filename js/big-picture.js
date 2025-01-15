@@ -1,5 +1,6 @@
-import { getComment } from './comments.js';
+import { getComments } from './comments.js';
 
+const COMMENT_COUNT_LOADER = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -9,7 +10,6 @@ const commentShownCount = commentsCount.querySelector('.social__comment-shown-co
 const commentsSown = bigPicture.querySelectorAll('.social__comments li');
 const commentTotalCount = commentsCount.querySelector('.social__comment-total-count');
 const captionPicture = bigPicture.querySelector('.social__caption');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 const renderBigPicture = function ({url, description, likes, comments}) {
 
@@ -20,7 +20,14 @@ const renderBigPicture = function ({url, description, likes, comments}) {
   captionPicture.textContent = description;
   bigPicture.classList.remove('hidden');
 
-  getComment(comments, commentsSown.length);
+  getComments(comments, COMMENT_COUNT_LOADER);
 };
 
 export { renderBigPicture };
+
+доработайте код по выводу списка комментариев таким образом,
+чтобы список показывался не полностью, а по 5 элементов,
+и следующие 5 элементов добавлялись бы по нажатию на
+кнопку «Загрузить ещё».
+Не забудьте реализовать обновление числа показанных
+комментариев в блоке .social__comment-count.

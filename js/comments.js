@@ -2,6 +2,9 @@
 const commentContainer = document.querySelector('.social__comments');
 const commentList = commentContainer.querySelectorAll('.social__comment');
 
+const getComments
+
+/*
 const getComment = function (coments, count) {
 
   if (coments.length === 0) {
@@ -21,5 +24,5 @@ const getComment = function (coments, count) {
     text.textContent = `${currentComent.message}`;
   }
 };
-
-export { getComment };
+ */
+export { getComments };

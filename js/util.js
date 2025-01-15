@@ -16,6 +16,17 @@ function createIdGenerator () {
   };
 }
 
+function createCountCommentsLoader () {
+
+  let lastGeneratedCount = 0;
+
+  return function () {
+    lastGeneratedCount += 5;
+    return lastGeneratedCount;
+  };
+}
+
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomArrayElement, getRandomInteger, createIdGenerator, isEscapeKey};
+export {getRandomArrayElement, getRandomInteger, createIdGenerator, isEscapeKey, createCountCommentsLoader};
