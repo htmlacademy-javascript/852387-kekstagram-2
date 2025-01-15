@@ -1,3 +1,4 @@
+import { createCountCommentsLoader } from './util.js';
 
 const commentContainer = document.querySelector('.social__comments');
 const commentSample = commentContainer.querySelector('.social__comment');
@@ -17,17 +18,17 @@ const renderCommit = function ({avatar, message, name}) {
 const getComments = function (comments, count) {
 
   const commentsListFragment = document.createDocumentFragment();
+  const startIndexComment = createCountCommentsLoader();
+  const showComment = comments.slice(startIndexComment, count);
 
-  if (comments.length < count) {
+  if (comments.length < count || showComment.length < count) {
     count = comments.length;
   }
 
-  for (let i = 0; i < count; i++) {
-    const currentComent = comments[i];
-    const renderCommitElement = renderCommit(currentComent);
-
+  showComment.forEach((comment) => {
+    const renderCommitElement = renderCommit(comment);
     commentsListFragment.appendChild(renderCommitElement);
-  }
+  });
 
   commentContainer.innerHTML = '';
   commentContainer.appendChild(commentsListFragment);

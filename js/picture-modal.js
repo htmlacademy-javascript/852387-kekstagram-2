@@ -6,7 +6,6 @@ const body = document.querySelector('body');
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const resetElement = bigPicture.querySelector('.big-picture__cancel');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
