@@ -17,9 +17,7 @@ const renderBigPicture = function ({url, description, likes, comments}) {
   likesСount.textContent = likes;
   commentShownCount.textContent = commentsSown.length;
   commentTotalCount.textContent = comments.length;
-  commentsCount.classList.add('hidden');
   captionPicture.textContent = description;
-  commentsLoader.classList.add('hidden');
   bigPicture.classList.remove('hidden');
 
   getComment(comments, commentsSown.length);
