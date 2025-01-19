@@ -1,25 +1,69 @@
+import { createCountCommentsLoader } from './util.js';
+
+const COMMENT_COUNT_LOADER = 5;
+let listComments = [];
+let startIndex = createCountCommentsLoader();
 
 const commentContainer = document.querySelector('.social__comments');
-const commentList = commentContainer.querySelectorAll('.social__comment');
+const bigPicture = document.querySelector('.big-picture');
+const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentSample = commentContainer.querySelector('.social__comment');
+const commentsCount = bigPicture.querySelector('.social__comment-count');
+const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
+const commentsList = bigPicture.querySelector('.social__comments');
 
-const getComment = function (coments, count) {
+const renderCommit = function ({avatar, message, name}) {
 
-  if (coments.length === 0) {
-    count = 0;
-    commentContainer.innerHTML = '';
+  const commentElement = commentSample.cloneNode(true);
+  const img = commentElement.querySelector('.social__picture');
+  img.src = `${avatar}`;
+  img.alt = `${name}`;
+  const text = commentElement.querySelector('.social__text');
+  text.textContent = `${message}`;
+  return commentElement;
+
+};
+
+const getComments = function () {
+
+  const commentsListFragment = document.createDocumentFragment();
+  const start = startIndex();
+  let count = COMMENT_COUNT_LOADER + start;
+  const showComment = listComments.slice(start, count);
+
+  if (listComments.length < count || showComment.length < count) {
+    count = listComments.length;
   }
 
-  for (let i = 0; i < count; i++) {
-    const commentListItem = commentList[i];
-    const currentComent = coments[i];
+  showComment.forEach((comment) => {
+    const renderCommitElement = renderCommit(comment);
+    commentsListFragment.appendChild(renderCommitElement);
 
-    const img = commentListItem.querySelector('.social__picture');
-    img.src = `${currentComent.avatar}`;
-    img.alt = `${currentComent.name}`;
+  });
 
-    const text = commentListItem.querySelector('.social__text');
-    text.textContent = `${currentComent.message}`;
+  commentContainer.appendChild(commentsListFragment);
+  commentShownCount.textContent = commentsList.children.length;
+
+  if (listComments.length === commentsList.children.length) {
+    commentsLoader.classList.add('hidden');
   }
 };
 
-export { getComment };
+const renderComments = (currntComments) => {
+
+  commentContainer.innerHTML = '';
+  listComments = currntComments;
+  getComments();
+  commentsLoader.addEventListener('click', getComments);
+
+};
+
+const clearComments = function () {
+
+  startIndex = createCountCommentsLoader();
+  commentsLoader.classList.add('hidden');
+  commentsLoader.removeEventListener('click', getComments);
+
+};
+
+export { renderComments, clearComments };
