@@ -4,16 +4,11 @@ const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const uploadFile = form.querySelector('.img-upload__input');
 const uploadModal = form.querySelector('.img-upload__overlay');
-
 const buttonClose = uploadModal.querySelector('.img-upload__cancel');
-
 const effectLevel = form.querySelector('.effect-level__value');
 const hashtagsField = form.querySelector('.text__hashtags');
 const descriptionField = form.querySelector('.text__description');
-
 const effectsList = form.querySelectorAll('input[type="radio"]');
-
-//const buttonSubmit = form.querySelector('.img-upload__submit');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -37,6 +32,22 @@ const onChangeUploadFile = (evt) => {
 
 uploadFile.addEventListener('change', onChangeUploadFile);
 
+const pristine = new Pristine(form, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error'
+});
+
+const onFormSubmit = function (evt) {
+  evt.preventDefault();
+  if (pristine.validate()) {
+    form.submit();
+  }
+};
+
+form.addEventListener('submit', onFormSubmit);
+
+
 function closeUploadModal () {
 
   uploadFile.value = null;
@@ -55,7 +66,7 @@ function closeUploadModal () {
   body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
-  //buttonClose.removeEventListener('click', );
+  form.removeEventListener('submit', onFormSubmit);
 }
 
 buttonClose.addEventListener('click', () => {
@@ -64,22 +75,14 @@ buttonClose.addEventListener('click', () => {
 
 //-------------ВАЛИДАЦИЯ------------------------
 
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
-
+const MAX_HASHTAGS = 5;
 let errorMessage = '';
 
 function validateHashtags (value) {
   errorMessage = '';
-  const inputValue = value.toLowerCase().trim();
+  const inputValue = value.trim();
   const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
 
-  if (inputValue.length === 0) {
-    return true;
-  }
   const hashtags = inputValue.split(' ');
 
   const rules = [
@@ -88,7 +91,7 @@ function validateHashtags (value) {
       error: 'введён невалидный хэштег',
     },
     {
-      test: hashtags.length <= 5,
+      test: hashtags.length <= MAX_HASHTAGS,
       error: 'превышено количество хэштегов',
     },
     {
@@ -99,10 +102,10 @@ function validateHashtags (value) {
 
   return rules.every((rule) => {
     const isValid = rule.test;
-    if(isValid) {
+    if(!isValid) {
       errorMessage = rule.error;
     }
-    return !isValid;
+    return isValid;
   });
 }
 
@@ -125,9 +128,4 @@ pristine.addValidator(
   validateDescription,
   'длина комментария больше 140 символов'
 );
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
 
