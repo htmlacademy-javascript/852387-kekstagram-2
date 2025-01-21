@@ -37,19 +37,6 @@ const onChangeUploadFile = (evt) => {
 
 uploadFile.addEventListener('change', onChangeUploadFile);
 
-// const onDescriptionField = (evt) => {
-//   evt.stopPropagation();
-// };
-
-// descriptionField.addEventListener('cklick', onDescriptionField);
-
-// const onHashtagsField = (evt) => {
-//   evt.stopPropagation();
-// };
-
-// hashtagsField.addEventListener('cklick', onHashtagsField);
-
-
 function closeUploadModal () {
 
   uploadFile.value = null;
@@ -67,9 +54,8 @@ function closeUploadModal () {
   uploadModal.classList.add('hidden');
   body.classList.remove('modal-open');
 
-  // descriptionField.removeEventListener('change', onDescriptionField);
-  // hashtagsField.removeEventListener('change', onHashtagsField);
   document.removeEventListener('keydown', onDocumentKeydown);
+  //buttonClose.removeEventListener('click', );
 }
 
 buttonClose.addEventListener('click', () => {
@@ -84,43 +70,44 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-const textErrors = {
-  getTestOne: 'введён невалидный хэштег',
-  getTestTwo: 'превышено количество хэштегов',
-  getTestThree: 'хэштеги повторяются'
-};
-
-let currentError = '';
+let errorMessage = '';
 
 function validateHashtags (value) {
+  errorMessage = '';
+  const inputValue = value.toLowerCase().trim();
   const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
-  const hashtags = value.split(' ');
 
-  const tests = {
-    getTestOne: function() {
-      return hashtags === '' || hashtags.every((hashtag) => pattern.test(hashtag));
-    },
-    getTestTwo: function() {
-      return hashtags.length <= 5;
-    },
-    getTestThree: function() {
-      return !hashtags.some((item, index) => hashtags.indexOf(item) < index);
-    },
-  };
-
-  for (const key in tests) {
-    if (!tests[key]()) {
-      currentError = textErrors[key];
-      return false;
-    } else {
-      currentError = '';
-    }
+  if (inputValue.length === 0) {
+    return true;
   }
-  return true;
+  const hashtags = inputValue.split(' ');
+
+  const rules = [
+    {
+      test: hashtags === '' || hashtags.every((hashtag) => pattern.test(hashtag)),
+      error: 'введён невалидный хэштег',
+    },
+    {
+      test: hashtags.length <= 5,
+      error: 'превышено количество хэштегов',
+    },
+    {
+      test: !hashtags.some((item, index) => hashtags.indexOf(item) < index),
+      error: 'хэштеги повторяются'
+    },
+  ];
+
+  return rules.every((rule) => {
+    const isValid = rule.test;
+    if(isValid) {
+      errorMessage = rule.error;
+    }
+    return !isValid;
+  });
 }
 
 function getHashtagsErrorMessage () {
-  return currentError;
+  return errorMessage;
 }
 
 pristine.addValidator(
@@ -130,7 +117,7 @@ pristine.addValidator(
 );
 
 function validateDescription (value) {
-  return value.length < 140;
+  return value.trim().length < 140;
 }
 
 pristine.addValidator(
