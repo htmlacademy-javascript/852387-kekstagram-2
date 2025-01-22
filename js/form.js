@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { extractNumber } from './functions.js';
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -9,6 +10,11 @@ const effectLevel = form.querySelector('.effect-level__value');
 const hashtagsField = form.querySelector('.text__hashtags');
 const descriptionField = form.querySelector('.text__description');
 const effectsList = form.querySelectorAll('input[type="radio"]');
+
+const imgUploadPreview = form.querySelector('.img-upload__preview');
+const uploadScale = form.querySelector('.img-upload__scale');
+const scaleControlValue = uploadScale.querySelector('.scale__control--value');
+
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -60,6 +66,7 @@ function closeUploadModal () {
     } else {
       effect.checked = false;
     }
+    imgUploadPreview.style.transform = null;
   });
 
   uploadModal.classList.add('hidden');
@@ -129,3 +136,17 @@ pristine.addValidator(
   'длина комментария больше 140 символов'
 );
 
+//-------------масштаб фото-------------------
+
+function onClickScaleControl (evt) {
+  let scaleValue = extractNumber(scaleControlValue.value);
+  if (evt.target.closest('.scale__control--smaller') && scaleValue > 25){
+    scaleValue -= 25;
+  } else if (evt.target.closest('.scale__control--bigger') && scaleValue < 100) {
+    scaleValue += 25;
+  }
+  scaleControlValue.value = `${scaleValue}%`;
+  imgUploadPreview.style.transform = `scale(${scaleValue / 100})`;
+}
+
+uploadScale.addEventListener('click', onClickScaleControl);
