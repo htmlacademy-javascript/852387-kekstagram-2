@@ -270,12 +270,11 @@ function onChangeEffect (evt) {
       const currentOption = options.filter((option) => option.id === evt.target.id);
       effectLevelSlider.noUiSlider.updateOptions(currentOption[0].sliderOptions);
       effectLevelSlider.noUiSlider.on('update', () => {
-        console.log('chrome on');
         effectLevelValue.value = effectLevelSlider.noUiSlider.get(); // Получим актуальное значение слайдера
         img.style.filter = currentOption[0].getFilter(effectLevelValue.value);
       });
     }
   }
 }
-console.log('chrome on');
+
 imgUploadEffects.addEventListener('change', onChangeEffect);
