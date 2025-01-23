@@ -172,7 +172,7 @@ const options = [
         min: 0,
         max: 1
       },
-      start: 0,
+      start: 1,
       step: 0.1
     },
     getFilter: function (value) {
@@ -186,7 +186,7 @@ const options = [
         min: 0,
         max: 1
       },
-      start: 0,
+      start: 1,
       step: 0.1
     },
     getFilter: function (value) {
@@ -200,7 +200,7 @@ const options = [
         min: 0,
         max: 100//%
       },
-      start: 0,
+      start: 100,
       step: 1,//%
     },
     getFilter: function (value) {
@@ -214,7 +214,7 @@ const options = [
         min: 0,
         max: 3//px
       },
-      start: 0,
+      start: 3,
       step: 0.1,//px
     },
     getFilter: function (value) {
@@ -228,7 +228,7 @@ const options = [
         min: 1,
         max: 3
       },
-      start: 0,
+      start: 3,
       step: 0.1,
     },
     getFilter: function (value) {
@@ -270,11 +270,12 @@ function onChangeEffect (evt) {
       const currentOption = options.filter((option) => option.id === evt.target.id);
       effectLevelSlider.noUiSlider.updateOptions(currentOption[0].sliderOptions);
       effectLevelSlider.noUiSlider.on('update', () => {
+        console.log('chrome on');
         effectLevelValue.value = effectLevelSlider.noUiSlider.get(); // Получим актуальное значение слайдера
         img.style.filter = currentOption[0].getFilter(effectLevelValue.value);
       });
     }
   }
 }
-
+console.log('chrome on');
 imgUploadEffects.addEventListener('change', onChangeEffect);
