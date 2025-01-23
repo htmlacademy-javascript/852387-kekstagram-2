@@ -50,6 +50,8 @@ const isMeetingAtWork = (startWork, endWork, startMeeting, timeMeeting) => {
   return (diffTimeStart >= 0 && diffTimeEnd >= 0);
 };
 
+export { extractNumber };
+
 extractNumber((2023)); // 2023
 extractNumber((-1)); // 1
 extractNumber((1.5)); // 15
