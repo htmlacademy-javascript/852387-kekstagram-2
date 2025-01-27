@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 5000;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -28,4 +30,20 @@ function createCountCommentsLoader () {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomArrayElement, getRandomInteger, createIdGenerator, isEscapeKey, createCountCommentsLoader};
+const showMessageError = () => {
+  //const arrContainer = document.createDocumentFragment();
+  const errorTemplate = document.querySelector('#data-error')
+    .content
+    .querySelector('.data-error');
+
+  const errorElement = errorTemplate.cloneNode(true);
+
+  document.body.append(errorElement);
+
+  setTimeout(() => {
+    errorElement.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export {getRandomArrayElement, getRandomInteger,
+  createIdGenerator, isEscapeKey, createCountCommentsLoader, showMessageError};

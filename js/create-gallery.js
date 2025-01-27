@@ -1,12 +1,10 @@
-//import { SIMILAR_PHOTOS_COUNT } from './data.js';
+
 //import { gallery } from './gallery.js';
 
 const listPictures = document.querySelector('.pictures');
-
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
-
 const picturesTitle = listPictures.querySelector('.pictures__title');
 picturesTitle.classList.remove('visually-hidden');
 

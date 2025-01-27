@@ -52,14 +52,30 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-const onFormSubmit = function (evt) {
-  evt.preventDefault();
-  if (pristine.validate()) {
-    form.submit();
-  }
+const setUserForSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://31.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then(onSuccess)
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  });
 };
 
-form.addEventListener('submit', onFormSubmit);
+// form.addEventListener('submit', onFormSubmit);
 
 
 function closeUploadModal () {
@@ -83,7 +99,7 @@ function closeUploadModal () {
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadScale.removeEventListener('click', onClickScaleControl);
   imgUploadEffects.removeEventListener('change', onChangeEffect);
-  form.removeEventListener('submit', onFormSubmit);
+  //form.removeEventListener('submit', onFormSubmit);
 }
 
 buttonClose.addEventListener('click', () => {
@@ -278,3 +294,6 @@ function onChangeEffect (evt) {
 }
 
 imgUploadEffects.addEventListener('change', onChangeEffect);
+
+
+export { setUserForSubmit, closeUploadModal };
