@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { extractNumber } from './functions.js';
+import { showMessageFail, showMessageSuccess } from './showAlert.js';
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -67,10 +68,21 @@ const setUserForSubmit = (onSuccess) => {
           body: formData,
         },
       )
-        .then(onSuccess)
-        .catch((err) => {
-          console.error(err);
+        .then((response) => {
+          if (response.ok) {
+            onSuccess();
+            showMessageSuccess();
+          } else {
+            showMessageFail();
+          }
+        })
+        .catch(() => {
+          showMessageFail();
         });
+      // .then(onSuccess)
+      // .catch((err) => {
+      //   console.error(err);
+      // });
     }
   });
 };
