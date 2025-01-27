@@ -1,6 +1,11 @@
 import { isEscapeKey } from './util.js';
-import { extractNumber } from './functions.js';
-import { showMessageFail, showMessageSuccess } from './showAlert.js';
+import { extractNumber } from './util.js';
+import { sendData } from './api.js';
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -21,6 +26,8 @@ const effectLevelSlider = form.querySelector('.effect-level__slider');
 const imgUploadEffectLevel = form.querySelector('.img-upload__effect-level');
 const imgUploadEffects = form.querySelector('.img-upload__effects');
 const effectLevelValue = form.querySelector('.effect-level__value'); // скрытое поле ввода
+
+const submitButton = form.querySelector('.img-upload__submit');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -53,36 +60,27 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+
 const setUserForSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     const isValid = pristine.validate();
     if (isValid) {
-      const formData = new FormData(evt.target);
-
-      fetch(
-        'https://31.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      )
-        .then((response) => {
-          if (response.ok) {
-            onSuccess();
-            showMessageSuccess();
-          } else {
-            showMessageFail();
-          }
-        })
-        .catch(() => {
-          showMessageFail();
-        });
-      // .then(onSuccess)
-      // .catch((err) => {
-      //   console.error(err);
-      // });
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .finally(unblockSubmitButton);
     }
   });
 };

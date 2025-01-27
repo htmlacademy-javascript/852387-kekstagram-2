@@ -1,5 +1,16 @@
 const ALERT_SHOW_TIME = 5000;
 
+const extractNumber = (text) => {
+  const normalizeText = String(text);
+  let result = '';
+  for (let i = 0; i < normalizeText.length; i++) {
+    if (!isNaN(parseInt(normalizeText[i], 10))) {
+      result += normalizeText[i];
+    }
+  }
+  return parseInt(result, 10);
+};
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -27,17 +38,14 @@ function createCountCommentsLoader () {
   };
 }
 
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const showMessageError = () => {
-  //const arrContainer = document.createDocumentFragment();
-  const errorTemplate = document.querySelector('#data-error')
+const showMessageError = (value) => {
+
+  const errorTemplate = document.querySelector(`#${value}`)
     .content
-    .querySelector('.data-error');
-
+    .querySelector(`.${value}`);
   const errorElement = errorTemplate.cloneNode(true);
-
   document.body.append(errorElement);
 
   setTimeout(() => {
@@ -45,5 +53,14 @@ const showMessageError = () => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomArrayElement, getRandomInteger,
-  createIdGenerator, isEscapeKey, createCountCommentsLoader, showMessageError};
+const showMessage = (value) => {
+  const MessageTemplate = document.querySelector(`#${value}`)
+    .content
+    .querySelector(`.${value}`);
+  const MessageElement = MessageTemplate.cloneNode(true);
+  document.body.append(MessageElement);
+};
+
+export {extractNumber, getRandomArrayElement, getRandomInteger,
+  createIdGenerator, isEscapeKey, createCountCommentsLoader,
+  showMessageError, showMessage};
