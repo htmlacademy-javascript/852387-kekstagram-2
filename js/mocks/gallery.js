@@ -1,5 +1,5 @@
 import {DESCRIPTION, MIN_LIKES, MAX_LIKES, SIMILAR_PHOTOS_COUNT} from './data.js';
-import {createIdGenerator, getRandomArrayElement, getRandomInteger} from './util.js';
+import {createIdGenerator, getRandomArrayElement, getRandomInteger} from '../util.js';
 import {similarComments} from './create-comments.js';
 
 const generatePhotoId = createIdGenerator();

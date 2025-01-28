@@ -1,4 +1,4 @@
-const ALERT_SHOW_TIME = 5000;
+const MESSATE_ERROR_SHOW_TIME = 5000;
 
 const extractNumber = (text) => {
   const normalizeText = String(text);
@@ -40,27 +40,50 @@ function createCountCommentsLoader () {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const showMessageError = (value) => {
+const errorLoadTemplate = document.querySelector('#data-error').content;
+const body = document.body;
 
-  const errorTemplate = document.querySelector(`#${value}`)
-    .content
-    .querySelector(`.${value}`);
-  const errorElement = errorTemplate.cloneNode(true);
-  document.body.append(errorElement);
+const showMessageError = () => {
+
+  const errorElement = errorLoadTemplate.cloneNode(true);
+
+  body.append(errorElement);
+
+  const errorLoadDataElement = body.querySelector('.data-error');
 
   setTimeout(() => {
-    errorElement.remove();
-  }, ALERT_SHOW_TIME);
+    errorLoadDataElement.remove();
+  }, MESSATE_ERROR_SHOW_TIME);
 };
 
-const showMessage = (value) => {
+const closeMessage = (evt) => {
+  // закрытие по клавише ESC
+  // по кнопке
+  // по пространству вне блока
+  evt.stopPropagation();
+
+  const currentElement = document.querySelector('.success') || document.querySelector('.error');
+
+  const closeButton = currentElement.querySelector('button');
+
+  if (evt.target === currentElement || evt.target === closeButton || isEscapeKey(evt)) {
+    currentElement.remove();
+    body.removeEventListener('click', closeMessage);
+    body.removeEventListener('keydown', closeMessage);
+  }
+};
+
+const showMessage = (value, trigger = null) => {
+  trigger?.();
   const MessageTemplate = document.querySelector(`#${value}`)
     .content
     .querySelector(`.${value}`);
   const MessageElement = MessageTemplate.cloneNode(true);
-  document.body.append(MessageElement);
+  body.append(MessageElement);
+  body.addEventListener('click', closeMessage);
+  body.addEventListener('keydown', closeMessage);
 };
 
 export {extractNumber, getRandomArrayElement, getRandomInteger,
   createIdGenerator, isEscapeKey, createCountCommentsLoader,
-  showMessageError, showMessage};
+  showMessageError, showMessage, closeMessage};

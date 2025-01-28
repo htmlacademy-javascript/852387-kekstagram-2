@@ -1,15 +1,13 @@
 import { createGallery } from './create-gallery.js';
-import './picture-modal.js';
-import { setUserForSubmit, closeUploadModal } from './form.js';
+import { savePhotos } from './picture-modal.js';
 import { showMessageError } from './util.js';
 import { getData } from './api.js';
 
-getData()
-  .then((photos) => {
-    createGallery(photos);
-  })
-  .catch((err) => {
-    showMessageError(err.message);
-  });
+try {
+  const photos = await getData ();
+  savePhotos(photos);
+  createGallery(photos);
+} catch (error) {
+  showMessageError(error.message);
+}
 
-setUserForSubmit(closeUploadModal);

@@ -1,45 +1,26 @@
-import { showMessage, showMessageError } from './util.js';
-
 const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 const Route = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
 
-const messageTemplate = {
-  GET_DATA_FAIL: 'data-error',
-  SENT_DATA_SUCCESS: 'success',
-  SEND_DATA_FAIL: 'error',
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
 };
 
-const getData = () => fetch(
-  `${BASE_URL}${Route.GET_DATA}`)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error();
-    }
-    return response.json();
-  })
-  .catch(() => {
-    showMessageError(messageTemplate.GET_DATA_FAIL);
-  });
+const ErrorText = {
+  [Method.GET]: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  [Method.POST]: 'Не удалось отправить форму. Попробуйте ещё раз',
+};
 
-const sendData = (body) => fetch(
-  `${BASE_URL}${Route.SEND_DATA}`,
-  {
-    method: 'POST',
-    body,
-  })
-  .then((response) => {
-    if (response.ok) {
-      showMessage(messageTemplate.SENT_DATA_SUCCESS);
-    } else {
-      showMessage(messageTemplate.SEND_DATA_FAIL);
-    }
-  })
-  .catch(() => {
-    showMessage(messageTemplate.SEND_DATA_FAIL);
-  });
+const load = async (route, method = Method.GET, body = null) => {
+  const response = await fetch(`${BASE_URL}${route}`, {method, body});
+  return response.ok ? await response.json() : Promise.reject(ErrorText[method]);
+};
+
+const getData = async () => await load(Route.GET_DATA);
+
+const sendData = async (body) => await load(Route.SEND_DATA, Method.POST, body);
 
 export {getData, sendData};
-

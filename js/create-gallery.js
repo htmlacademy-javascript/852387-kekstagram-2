@@ -1,6 +1,3 @@
-
-//import { gallery } from './gallery.js';
-
 const listPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
@@ -8,10 +5,10 @@ const pictureTemplate = document.querySelector('#picture')
 const picturesTitle = listPictures.querySelector('.pictures__title');
 picturesTitle.classList.remove('visually-hidden');
 
-const createGallery = (photos) => {
+const createGallery = (dataPhotos) => {
   const simularListFragment = document.createDocumentFragment();
 
-  photos.forEach(({id, url, description, likes, comments}) => {
+  dataPhotos.forEach(({id, url, description, likes, comments}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.id = id;
 
