@@ -1,12 +1,20 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey} from './util.js';
 import { renderBigPicture } from './render-big-picture.js';
-import { gallery } from './gallery.js';
 import { renderComments, clearComments } from './comments.js';
 
-const body = document.querySelector('body');
+const body = document.body;
 const picturesContainer = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const resetElement = bigPicture.querySelector('.big-picture__cancel');
+
+let photos = [];
+
+const savePhotos = (dataPhotos) => {
+  photos = dataPhotos;
+  return photos;
+};
+
+const getPhotoById = (id) => photos.find((photo) => photo.id === id);
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -15,10 +23,10 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function onClickPicture (evt) {
+function openModal (evt) {
 
   if (evt.target.closest('.picture')) {
-    const choosePhoto = gallery.find((item) => item.id === Number(evt.target.parentElement.id));
+    const choosePhoto = getPhotoById(Number(evt.target.parentElement.id));
 
     bigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
@@ -29,7 +37,7 @@ function onClickPicture (evt) {
   }
 }
 
-picturesContainer.addEventListener('click', onClickPicture);
+picturesContainer.addEventListener('click', openModal);
 
 function closePictureModal () {
   bigPicture.classList.add('hidden');
@@ -41,3 +49,5 @@ function closePictureModal () {
 resetElement.addEventListener('click', () => {
   closePictureModal();
 });
+
+export { openModal, savePhotos };

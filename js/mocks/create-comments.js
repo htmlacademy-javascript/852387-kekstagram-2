@@ -1,5 +1,5 @@
 import {SIMILAR_AVATAR_COUNT, COMMENTS, NAMES, SIMILAR_COMMENT_COUNT} from './data.js';
-import {createIdGenerator, getRandomInteger, getRandomArrayElement} from './util.js';
+import {createIdGenerator, getRandomInteger, getRandomArrayElement} from '../util.js';
 
 const generateCommentId = createIdGenerator();
 
