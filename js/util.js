@@ -20,6 +20,7 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
+
 function createIdGenerator () {
   let lastGeneratedId = 0;
 
@@ -124,6 +125,17 @@ function throttle (callback, delayBetweenFrames) {
   };
 }
 
+const getSizeComments = (item) => item.comments.length;
+
+const comparePhotos = (photoA, photoB) => {
+  const rankA = getSizeComments(photoA);
+  const rankB = getSizeComments(photoB);
+
+  return rankB - rankA;
+};
+
+
 export {extractNumber, getRandomArrayElement, getRandomInteger,
   createIdGenerator, isEscapeKey, createCountCommentsLoader,
-  showMessageError, showMessage, closeMessage, debounce, throttle};
+  showMessageError, showMessage, closeMessage, debounce, throttle,
+  comparePhotos};

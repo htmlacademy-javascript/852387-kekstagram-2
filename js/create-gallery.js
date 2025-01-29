@@ -6,6 +6,7 @@ const picturesTitle = listPictures.querySelector('.pictures__title');
 picturesTitle.classList.remove('visually-hidden');
 
 const createGallery = (dataPhotos) => {
+
   const simularListFragment = document.createDocumentFragment();
 
   dataPhotos.forEach(({id, url, description, likes, comments}) => {
@@ -22,7 +23,9 @@ const createGallery = (dataPhotos) => {
     simularListFragment.appendChild(pictureElement);
   });
 
+  listPictures.querySelectorAll('.picture').forEach((item) => item.remove());
   listPictures.appendChild(simularListFragment);
+
 };
 
 export { createGallery };
