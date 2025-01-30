@@ -2,6 +2,7 @@ import { isEscapeKey, showMessage } from './util.js';
 import { sendData } from './api.js';
 import { onChangeEffect, resetSlider } from './effects.js';
 import { onClickScaleControl, resetScale } from './scale-photo.js';
+import { upLoadFile } from './loadPhoto.js';
 
 const SubmitButtonText = {
   IDLE: 'Сохранить',
@@ -10,7 +11,10 @@ const SubmitButtonText = {
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
-const uploadFile = form.querySelector('.img-upload__input');
+const uploadFile = form.querySelector('.img-upload__input');//
+//const imgUpload = document.querySelector('.img-upload');
+//const imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
+// const preview = imgUploadPreview.querySelector('img');
 const uploadModal = form.querySelector('.img-upload__overlay');
 const buttonClose = uploadModal.querySelector('.img-upload__cancel');
 const uploadScale = form.querySelector('.img-upload__scale');
@@ -68,6 +72,8 @@ function closeUploadModal () {
 
 const onChangeUploadFile = (evt) => {
   evt.preventDefault();
+
+  upLoadFile();
 
   imgUploadEffectLevel.classList.add('hidden');
 
