@@ -27,7 +27,6 @@ function openModal (evt) {
 
   if (evt.target.closest('.picture')) {
     const choosePhoto = getPhotoById(Number(evt.target.parentElement.id));
-
     bigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
     renderBigPicture(choosePhoto);

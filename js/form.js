@@ -1,6 +1,6 @@
 import { isEscapeKey, showMessage } from './util.js';
 import { sendData } from './api.js';
-import { onChangeEffect, resetSlider } from './effects.js';
+import { onChangeEffect, resetFilter } from './effects.js';
 import { onClickScaleControl, resetScale } from './scale-photo.js';
 import { upLoadFile } from './loadPhoto.js';
 
@@ -54,7 +54,7 @@ const pristine = new Pristine(form, {
 
 function closeUploadModal () {
 
-  resetSlider();
+  resetFilter();
   pristine.reset();
   resetScale();
   form.reset();
@@ -90,7 +90,7 @@ form.addEventListener('reset', () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   pristine.reset();
   resetScale();
-  resetSlider();
+  resetFilter();
 });
 
 const sendFormData = async (formElement) => {
@@ -127,10 +127,10 @@ let errorMessage = '';
 
 function validateHashtags (value) {
   errorMessage = '';
-  const inputValue = value.trim();
+  const inputValue = value.trim().toUpperCase();
   const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
 
-  const hashtags = inputValue.split(' ');
+  const hashtags = inputValue.split(' ').filter(Boolean);
 
   const rules = [
     {
@@ -142,7 +142,7 @@ function validateHashtags (value) {
       error: 'превышено количество хэштегов',
     },
     {
-      test: !hashtags.some((item, index) => hashtags.indexOf(item) < index),
+      test: !hashtags.some((item, index) => hashtags.indexOf(item.toUpperCase()) < index),
       error: 'хэштеги повторяются'
     },
   ];
