@@ -8,24 +8,22 @@ let chooseFilter = 'filter-default';
 
 const filtersContainer = document.querySelector('.img-filters');
 
-
 const debounceRender = debounce(createGallery);
 
-// const Filters = {
-//   'filter-default': null,
-//   'filter-random': function(items) {
-//     return items.slice().sort(() => Math.random() - 0.5).slice(0, 10);
-//   },
-//   'filter-discussed': function(items) {
-//     return items.slice().sort((a, b) => a.comments.length - b.comments.length);
-//   }
-// };
-
-
-// function getFilterData (data, filter = null) {
-//   return filter ? filter(data) : data;
-// }
-// let chooseFilter = null;
+const getFilterData = () => {
+  let filterPhotos = [];
+  switch (chooseFilter) {
+    case 'filter-random':
+      filterPhotos = dataPhotos.slice().sort(() => Math.random() - 0.5).slice(0, 10);
+      break;
+    case 'filter-discussed':
+      filterPhotos = dataPhotos.slice().sort((a, b) => b.comments.length - a.comments.length);
+      break;
+    default:
+      filterPhotos = dataPhotos;
+  }
+  debounceRender(filterPhotos);
+};
 
 function onFilterChange (evt) {
   const targetButton = evt.target;
@@ -41,25 +39,10 @@ function onFilterChange (evt) {
   }
 }
 
-function getFilterData() {
-  let filterPhotos = [];
-  switch (chooseFilter) {
-    case 'filter-random':
-      filterPhotos = dataPhotos.slice().sort(() => Math.random() - 0.5).slice(0, 10);
-      break;
-    case 'filter-discussed':
-      filterPhotos = dataPhotos.slice().sort((a, b) => a.comments.length - b.comments.length);
-      break;
-    default:
-      filterPhotos = dataPhotos;
-  }
-  debounceRender(filterPhotos);
-}
-
 const createFilterGallery = function (data) {
-  filtersContainer.classList.remove('img-filters--inactive');
-  filtersContainer.addEventListener('click', onFilterChange);
   dataPhotos = data;
+  filtersContainer.classList.remove(ACTIVE_BUTTON_CLASS);
+  filtersContainer.addEventListener('click', onFilterChange);
 };
 
 export { createFilterGallery };

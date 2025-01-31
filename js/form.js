@@ -1,8 +1,8 @@
 import { isEscapeKey, showMessage } from './util.js';
-import { sendData } from './api.js';
 import { onChangeEffect, resetFilter } from './effects.js';
 import { onClickScaleControl, resetScale } from './scale-photo.js';
 import { upLoadFile } from './loadPhoto.js';
+import { sendData } from './api.js';
 
 const SubmitButtonText = {
   IDLE: 'Сохранить',
@@ -11,10 +11,7 @@ const SubmitButtonText = {
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
-const uploadFile = form.querySelector('.img-upload__input');//
-//const imgUpload = document.querySelector('.img-upload');
-//const imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
-// const preview = imgUploadPreview.querySelector('img');
+const uploadFile = form.querySelector('.img-upload__input');
 const uploadModal = form.querySelector('.img-upload__overlay');
 const buttonClose = uploadModal.querySelector('.img-upload__cancel');
 const uploadScale = form.querySelector('.img-upload__scale');
@@ -83,16 +80,6 @@ const onChangeUploadFile = (evt) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-uploadFile.addEventListener('change', onChangeUploadFile);
-
-form.addEventListener('reset', () => {
-  uploadModal.classList.add('hidden');
-  document.removeEventListener('keydown', onDocumentKeydown);
-  pristine.reset();
-  resetScale();
-  resetFilter();
-});
-
 const sendFormData = async (formElement) => {
   const isValid = pristine.validate();
   if (isValid) {
@@ -115,12 +102,6 @@ const formSubmitHandler = (evt) => {
   evt.preventDefault();
   sendFormData(evt.target);
 };
-
-buttonClose.addEventListener('click', () => {
-  closeUploadModal();
-});
-
-//-------------ВАЛИДАЦИЯ------------------------
 
 const MAX_HASHTAGS = 5;
 let errorMessage = '';
@@ -176,16 +157,19 @@ pristine.addValidator(
   'длина комментария больше 140 символов'
 );
 
-//-------------масштаб фото-------------------
-
 uploadScale.addEventListener('click', onClickScaleControl);
-
-//-----------noUiSlider + фильтры_для_фото--------------------
-
 imgUploadEffects.addEventListener('change', onChangeEffect);
-
-//======================
-
+uploadFile.addEventListener('change', onChangeUploadFile);
+buttonClose.addEventListener('click', () => {
+  closeUploadModal();
+});
+form.addEventListener('reset', () => {
+  uploadModal.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
+  pristine.reset();
+  resetScale();
+  resetFilter();
+});
 form.addEventListener('submit', formSubmitHandler);
 
 export { form, closeUploadModal };
