@@ -10,7 +10,6 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentSample = commentContainer.querySelector('.social__comment');
 const commentsCount = bigPicture.querySelector('.social__comment-count');
 const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
-const commentsList = bigPicture.querySelector('.social__comments');
 
 const renderCommit = function ({avatar, message, name}) {
 
@@ -42,9 +41,9 @@ const getComments = function () {
   });
 
   commentContainer.appendChild(commentsListFragment);
-  commentShownCount.textContent = commentsList.children.length;
+  commentShownCount.textContent = commentContainer.children.length;
 
-  if (listComments.length === commentsList.children.length) {
+  if (listComments.length === commentContainer.children.length) {
     commentsLoader.classList.add('hidden');
   }
 };

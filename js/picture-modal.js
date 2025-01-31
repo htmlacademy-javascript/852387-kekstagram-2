@@ -14,8 +14,6 @@ const savePhotos = (dataPhotos) => {
   return photos;
 };
 
-const getPhotoById = (id) => photos.find((photo) => photo.id === id);
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -23,11 +21,12 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const getPhotoById = (id) => photos.find((photo) => photo.id === id);
+
 function openModal (evt) {
 
   if (evt.target.closest('.picture')) {
     const choosePhoto = getPhotoById(Number(evt.target.parentElement.id));
-
     bigPicture.classList.remove('hidden');
     body.classList.add('modal-open');
     renderBigPicture(choosePhoto);
