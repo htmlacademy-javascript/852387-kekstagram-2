@@ -1,3 +1,39 @@
+const BASE_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
+
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+const ErrorText = {
+  [Method.GET]: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  [Method.POST]: 'Не удалось отправить форму. Попробуйте ещё раз',
+};
+
+const COMMENT_COUNT_LOADER = 5;
+
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
+const MAX_HASHTAGS = 5;
+
+const ScaleOptions = {
+  max: 100,
+  min: 25,
+  step: 25,
+};
+
 const sliderOptionsMarvinDefault = {
   range: {
     min: 0,
@@ -58,4 +94,6 @@ const StyleFilterByEffects = {
   heat: getHeatStyleFilter
 };
 
-export { Effects, StyleFilterByEffects};
+export { Effects, StyleFilterByEffects, ScaleOptions,
+  ACTIVE_BUTTON_CLASS, FILE_TYPES, SubmitButtonText, MAX_HASHTAGS,
+  COMMENT_COUNT_LOADER, BASE_URL, Route, Method, ErrorText };

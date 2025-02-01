@@ -1,5 +1,8 @@
 const MESSATE_ERROR_SHOW_TIME = 5000;
 
+const errorLoadTemplate = document.querySelector('#data-error').content;
+const body = document.body;
+
 const extractNumber = (text) => {
   const normalizeText = String(text);
   let result = '';
@@ -11,25 +14,6 @@ const extractNumber = (text) => {
   return parseInt(result, 10);
 };
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-
-function createIdGenerator () {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
-
 function createCountCommentsLoader () {
   let lastGeneratedCount = -5;
 
@@ -40,9 +24,6 @@ function createCountCommentsLoader () {
 }
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const errorLoadTemplate = document.querySelector('#data-error').content;
-const body = document.body;
 
 const showMessageError = () => {
 
@@ -85,7 +66,7 @@ const showMessage = (value, trigger = null) => {
   body.addEventListener('keydown', closeMessage);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -101,41 +82,7 @@ function debounce (callback, timeoutDelay = 500) {
     // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
-}
-
-
-function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-const getSizeComments = (item) => item.comments.length;
-
-const comparePhotos = (photoA, photoB) => {
-  const rankA = getSizeComments(photoA);
-  const rankB = getSizeComments(photoB);
-
-  return rankB - rankA;
 };
 
-
-export {extractNumber, getRandomArrayElement, getRandomInteger,
-  createIdGenerator, isEscapeKey, createCountCommentsLoader,
-  showMessageError, showMessage, closeMessage, debounce, throttle,
-  comparePhotos};
+export {extractNumber, createCountCommentsLoader,
+  debounce, isEscapeKey, showMessage, showMessageError,};

@@ -24,7 +24,7 @@ const getUpdateSliderOptions = (effect, sliderElement) => {
   sliderElement.noUiSlider.updateOptions(Effects[effect]);
 };
 
-const resetFilter = () => {
+const resetEffects = () => {
   img.style.removeProperty('filter');
   imgUploadEffectLevel.classList.add('hidden');
   img.classList.remove('effects__preview--none');
@@ -68,10 +68,10 @@ effectLevelSlider.noUiSlider.on('update', () => {
         imgUploadEffectLevel.classList.remove('hidden');
         img.style.filter = StyleFilterByEffects[item.value](effectLevelValue.value);
       } else {
-        resetFilter();
+        resetEffects();
       }
     }
   });
 });
 
-export { onChangeEffect, resetFilter };
+export { onChangeEffect, resetEffects };

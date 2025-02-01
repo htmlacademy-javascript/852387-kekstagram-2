@@ -1,13 +1,9 @@
+import { SubmitButtonText, MAX_HASHTAGS } from './const.js';
 import { isEscapeKey, showMessage } from './util.js';
-import { onChangeEffect, resetFilter } from './effects.js';
+import { onChangeEffect, resetEffects } from './effects.js';
 import { onClickScaleControl, resetScale } from './scale-photo.js';
 import { upLoadFile } from './loadPhoto.js';
 import { sendData } from './api.js';
-
-const SubmitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -20,6 +16,8 @@ const descriptionField = form.querySelector('.text__description');
 const imgUploadEffects = form.querySelector('.img-upload__effects');
 const imgUploadEffectLevel = form.querySelector('.img-upload__effect-level');
 const submitButton = form.querySelector('.img-upload__submit');
+
+let errorMessage = '';
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -51,7 +49,7 @@ const pristine = new Pristine(form, {
 
 function closeUploadModal () {
 
-  resetFilter();
+  resetEffects();
   pristine.reset();
   resetScale();
   form.reset();
@@ -62,6 +60,10 @@ function closeUploadModal () {
   body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
+
+  buttonClose.addEventListener('click', () => {
+    closeUploadModal();
+  });
   uploadScale.removeEventListener('click', onClickScaleControl);
   imgUploadEffects.removeEventListener('change', onChangeEffect);
 
@@ -78,6 +80,12 @@ const onChangeUploadFile = (evt) => {
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
+
+  buttonClose.addEventListener('click', () => {
+    closeUploadModal();
+  });
+  uploadScale.addEventListener('click', onClickScaleControl);
+  imgUploadEffects.addEventListener('change', onChangeEffect);
 };
 
 const sendFormData = async (formElement) => {
@@ -103,10 +111,7 @@ const formSubmitHandler = (evt) => {
   sendFormData(evt.target);
 };
 
-const MAX_HASHTAGS = 5;
-let errorMessage = '';
-
-function validateHashtags (value) {
+const validateHashtags = (value) => {
   errorMessage = '';
   const inputValue = value.trim().toUpperCase();
   const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
@@ -135,11 +140,9 @@ function validateHashtags (value) {
     }
     return isValid;
   });
-}
+};
 
-function getHashtagsErrorMessage () {
-  return errorMessage;
-}
+const getHashtagsErrorMessage = () => errorMessage;
 
 pristine.addValidator(
   hashtagsField,
@@ -157,18 +160,13 @@ pristine.addValidator(
   'длина комментария больше 140 символов'
 );
 
-uploadScale.addEventListener('click', onClickScaleControl);
-imgUploadEffects.addEventListener('change', onChangeEffect);
 uploadFile.addEventListener('change', onChangeUploadFile);
-buttonClose.addEventListener('click', () => {
-  closeUploadModal();
-});
 form.addEventListener('reset', () => {
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   pristine.reset();
   resetScale();
-  resetFilter();
+  resetEffects();
 });
 form.addEventListener('submit', formSubmitHandler);
 
