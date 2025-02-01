@@ -11,25 +11,6 @@ const extractNumber = (text) => {
   return parseInt(result, 10);
 };
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-
-function createIdGenerator () {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
-
 function createCountCommentsLoader () {
   let lastGeneratedCount = -5;
 
@@ -103,39 +84,5 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-
-function throttle (callback, delayBetweenFrames) {
-  // Используем замыкания, чтобы время "последнего кадра" навсегда приклеилось
-  // к возвращаемой функции с условием, тогда мы его сможем перезаписывать
-  let lastTime = 0;
-
-  return (...rest) => {
-    // Получаем текущую дату в миллисекундах,
-    // чтобы можно было в дальнейшем
-    // вычислять разницу между кадрами
-    const now = new Date();
-
-    // Если время между кадрами больше задержки,
-    // вызываем наш колбэк и перезаписываем lastTime
-    // временем "последнего кадра"
-    if (now - lastTime >= delayBetweenFrames) {
-      callback.apply(this, rest);
-      lastTime = now;
-    }
-  };
-}
-
-const getSizeComments = (item) => item.comments.length;
-
-const comparePhotos = (photoA, photoB) => {
-  const rankA = getSizeComments(photoA);
-  const rankB = getSizeComments(photoB);
-
-  return rankB - rankA;
-};
-
-
-export {extractNumber, getRandomArrayElement, getRandomInteger,
-  createIdGenerator, isEscapeKey, createCountCommentsLoader,
-  showMessageError, showMessage, closeMessage, debounce, throttle,
-  comparePhotos};
+export {extractNumber, createCountCommentsLoader,
+  debounce, isEscapeKey, showMessage, showMessageError};
