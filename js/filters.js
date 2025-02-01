@@ -1,7 +1,7 @@
 import { createGallery } from './create-gallery.js';
 import { debounce } from './util.js';
+import { ACTIVE_BUTTON_CLASS } from './const.js';
 
-const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const filtersContainer = document.querySelector('.img-filters');
 
 let dataPhotos = [];
@@ -24,7 +24,7 @@ const getFilterData = () => {
   debounceRender(filterPhotos);
 };
 
-function onFilterChange (evt) {
+const onFilterChange = (evt) => {
   const targetButton = evt.target;
   const activeButton = filtersContainer.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
 
@@ -36,7 +36,7 @@ function onFilterChange (evt) {
 
     getFilterData();
   }
-}
+};
 
 const createFilterGallery = function (data) {
   dataPhotos = data;

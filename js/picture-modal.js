@@ -23,7 +23,7 @@ const onDocumentKeydown = (evt) => {
 
 const getPhotoById = (id) => photos.find((photo) => photo.id === id);
 
-function openModal (evt) {
+const openModal = (evt) => {
 
   if (evt.target.closest('.picture')) {
     const choosePhoto = getPhotoById(Number(evt.target.parentElement.id));
@@ -34,7 +34,7 @@ function openModal (evt) {
 
     document.addEventListener('keydown', onDocumentKeydown);
   }
-}
+};
 
 function closePictureModal () {
   bigPicture.classList.add('hidden');

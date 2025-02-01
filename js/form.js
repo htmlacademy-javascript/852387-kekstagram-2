@@ -111,7 +111,7 @@ const formSubmitHandler = (evt) => {
   sendFormData(evt.target);
 };
 
-function validateHashtags (value) {
+const validateHashtags = (value) => {
   errorMessage = '';
   const inputValue = value.trim().toUpperCase();
   const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
@@ -140,11 +140,9 @@ function validateHashtags (value) {
     }
     return isValid;
   });
-}
+};
 
-function getHashtagsErrorMessage () {
-  return errorMessage;
-}
+const getHashtagsErrorMessage = () => errorMessage;
 
 pristine.addValidator(
   hashtagsField,

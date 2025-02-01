@@ -17,6 +17,8 @@ const ErrorText = {
 
 const COMMENT_COUNT_LOADER = 5;
 
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const SubmitButtonText = {
@@ -93,5 +95,5 @@ const StyleFilterByEffects = {
 };
 
 export { Effects, StyleFilterByEffects, ScaleOptions,
-  FILE_TYPES, SubmitButtonText, MAX_HASHTAGS, COMMENT_COUNT_LOADER,
-  BASE_URL, Route, Method, ErrorText };
+  ACTIVE_BUTTON_CLASS, FILE_TYPES, SubmitButtonText, MAX_HASHTAGS,
+  COMMENT_COUNT_LOADER, BASE_URL, Route, Method, ErrorText };
