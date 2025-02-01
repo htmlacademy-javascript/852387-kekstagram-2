@@ -2,11 +2,10 @@ import { createGallery } from './create-gallery.js';
 import { debounce } from './util.js';
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
+const filtersContainer = document.querySelector('.img-filters');
 
 let dataPhotos = [];
 let chooseFilter = 'filter-default';
-
-const filtersContainer = document.querySelector('.img-filters');
 
 const debounceRender = debounce(createGallery);
 

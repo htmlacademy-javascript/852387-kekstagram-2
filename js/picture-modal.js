@@ -36,8 +36,6 @@ function openModal (evt) {
   }
 }
 
-picturesContainer.addEventListener('click', openModal);
-
 function closePictureModal () {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -45,6 +43,7 @@ function closePictureModal () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
+picturesContainer.addEventListener('click', openModal);
 resetElement.addEventListener('click', () => {
   closePictureModal();
 });

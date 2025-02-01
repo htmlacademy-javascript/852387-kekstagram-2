@@ -1,5 +1,8 @@
 const MESSATE_ERROR_SHOW_TIME = 5000;
 
+const errorLoadTemplate = document.querySelector('#data-error').content;
+const body = document.body;
+
 const extractNumber = (text) => {
   const normalizeText = String(text);
   let result = '';
@@ -21,9 +24,6 @@ function createCountCommentsLoader () {
 }
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const errorLoadTemplate = document.querySelector('#data-error').content;
-const body = document.body;
 
 const showMessageError = () => {
 
@@ -85,4 +85,4 @@ function debounce (callback, timeoutDelay = 500) {
 }
 
 export {extractNumber, createCountCommentsLoader,
-  debounce, isEscapeKey, showMessage, showMessageError};
+  debounce, isEscapeKey, showMessage, showMessageError,};

@@ -1,6 +1,6 @@
 import { createCountCommentsLoader } from './util.js';
+import { COMMENT_COUNT_LOADER } from './const.js';
 
-const COMMENT_COUNT_LOADER = 5;
 let listComments = [];
 let startIndex = createCountCommentsLoader();
 

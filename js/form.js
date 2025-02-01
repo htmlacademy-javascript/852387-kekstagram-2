@@ -1,13 +1,9 @@
+import { SubmitButtonText, MAX_HASHTAGS } from './const.js';
 import { isEscapeKey, showMessage } from './util.js';
 import { onChangeEffect, resetEffects } from './effects.js';
 import { onClickScaleControl, resetScale } from './scale-photo.js';
 import { upLoadFile } from './loadPhoto.js';
 import { sendData } from './api.js';
-
-const SubmitButtonText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -20,6 +16,8 @@ const descriptionField = form.querySelector('.text__description');
 const imgUploadEffects = form.querySelector('.img-upload__effects');
 const imgUploadEffectLevel = form.querySelector('.img-upload__effect-level');
 const submitButton = form.querySelector('.img-upload__submit');
+
+let errorMessage = '';
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -112,9 +110,6 @@ const formSubmitHandler = (evt) => {
   evt.preventDefault();
   sendFormData(evt.target);
 };
-
-const MAX_HASHTAGS = 5;
-let errorMessage = '';
 
 function validateHashtags (value) {
   errorMessage = '';

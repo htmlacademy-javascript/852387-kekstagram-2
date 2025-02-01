@@ -1,4 +1,4 @@
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+import { FILE_TYPES } from './const.js';
 
 const form = document.querySelector('.img-upload__form');
 const uploadFile = form.querySelector('.img-upload__input');//

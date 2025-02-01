@@ -1,4 +1,5 @@
 import { extractNumber } from './util.js';
+import { ScaleOptions } from './const.js';
 
 const form = document.querySelector('.img-upload__form');
 const uploadScale = form.querySelector('.img-upload__scale');
@@ -8,10 +9,10 @@ const img = imgUploadPreview.querySelector('img');
 
 const onClickScaleControl = function (evt) {
   let scaleValue = extractNumber(scaleControlValue.value);
-  if (evt.target.closest('.scale__control--smaller') && scaleValue > 25){
-    scaleValue -= 25;
-  } else if (evt.target.closest('.scale__control--bigger') && scaleValue < 100) {
-    scaleValue += 25;
+  if (evt.target.closest('.scale__control--smaller') && scaleValue > ScaleOptions.min){
+    scaleValue -= ScaleOptions.step;
+  } else if (evt.target.closest('.scale__control--bigger') && scaleValue < ScaleOptions.max) {
+    scaleValue += ScaleOptions.step;
   }
   scaleControlValue.value = `${scaleValue}%`;
   img.style.transform = `scale(${scaleValue / 100})`;
