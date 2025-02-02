@@ -28,13 +28,13 @@ const getComments = function () {
   const commentsListFragment = document.createDocumentFragment();
   const start = startIndex();
   let count = COMMENT_COUNT_LOADER + start;
-  const showComment = listComments.slice(start, count);
+  const newListComments = listComments.slice(start, count);
 
-  if (listComments.length < count || showComment.length < count) {
+  if (listComments.length < count || newListComments.length < count) {
     count = listComments.length;
   }
 
-  showComment.forEach((comment) => {
+  newListComments.forEach((comment) => {
     const renderCommitElement = renderCommit(comment);
     commentsListFragment.appendChild(renderCommitElement);
 

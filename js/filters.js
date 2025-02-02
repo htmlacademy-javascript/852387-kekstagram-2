@@ -16,7 +16,7 @@ const getFilterData = () => {
       filterPhotos = dataPhotos.slice().sort(() => Math.random() - 0.5).slice(0, 10);
       break;
     case 'filter-discussed':
-      filterPhotos = dataPhotos.slice().sort((a, b) => b.comments.length - a.comments.length);
+      filterPhotos = dataPhotos.slice().sort((photoOne, photoTwo) => photoTwo.comments.length - photoOne.comments.length);
       break;
     default:
       filterPhotos = dataPhotos;
