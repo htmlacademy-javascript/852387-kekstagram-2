@@ -16,7 +16,7 @@ const getFilterData = () => {
       filterPhotos = dataPhotos.slice().sort(() => Math.random() - 0.5).slice(0, 10);
       break;
     case 'filter-discussed':
-      filterPhotos = dataPhotos.slice().sort((a, b) => b.comments.length - a.comments.length);
+      filterPhotos = dataPhotos.slice().sort((photoOne, photoTwo) => photoTwo.comments.length - photoOne.comments.length);
       break;
     default:
       filterPhotos = dataPhotos;
@@ -24,7 +24,7 @@ const getFilterData = () => {
   debounceRender(filterPhotos);
 };
 
-const onFilterChange = (evt) => {
+const onFilterClick = (evt) => {
   const targetButton = evt.target;
   const activeButton = filtersContainer.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
 
@@ -41,7 +41,7 @@ const onFilterChange = (evt) => {
 const createFilterGallery = function (data) {
   dataPhotos = data;
   filtersContainer.classList.remove(ACTIVE_BUTTON_CLASS);
-  filtersContainer.addEventListener('click', onFilterChange);
+  filtersContainer.addEventListener('click', onFilterClick);
 };
 
 export { createFilterGallery };

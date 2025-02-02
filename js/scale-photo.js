@@ -7,12 +7,12 @@ const scaleControlValue = uploadScale.querySelector('.scale__control--value');
 const imgUploadPreview = form.querySelector('.img-upload__preview');
 const img = imgUploadPreview.querySelector('img');
 
-const onClickScaleControl = function (evt) {
+const onScaleClick = function (evt) {
   let scaleValue = extractNumber(scaleControlValue.value);
-  if (evt.target.closest('.scale__control--smaller') && scaleValue > ScaleOptions.min){
-    scaleValue -= ScaleOptions.step;
-  } else if (evt.target.closest('.scale__control--bigger') && scaleValue < ScaleOptions.max) {
-    scaleValue += ScaleOptions.step;
+  if (evt.target.closest('.scale__control--smaller') && scaleValue > ScaleOptions.MIN){
+    scaleValue -= ScaleOptions.STEP;
+  } else if (evt.target.closest('.scale__control--bigger') && scaleValue < ScaleOptions.MAX) {
+    scaleValue += ScaleOptions.STEP;
   }
   scaleControlValue.value = `${scaleValue}%`;
   img.style.transform = `scale(${scaleValue / 100})`;
@@ -22,4 +22,4 @@ const resetScale = function () {
   img.style.transform = null;
 };
 
-export {onClickScaleControl, resetScale };
+export {onScaleClick, resetScale };

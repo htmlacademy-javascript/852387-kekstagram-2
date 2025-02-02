@@ -14,18 +14,18 @@ const extractNumber = (text) => {
   return parseInt(result, 10);
 };
 
-function createCountCommentsLoader () {
+const createCountCommentsLoader = () => {
   let lastGeneratedCount = -5;
 
   return function () {
     lastGeneratedCount += 5;
     return lastGeneratedCount;
   };
-}
+};
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const showMessageError = () => {
+const showErrorMessageUploadData = () => {
 
   const errorElement = errorLoadTemplate.cloneNode(true);
 
@@ -38,32 +38,31 @@ const showMessageError = () => {
   }, MESSATE_ERROR_SHOW_TIME);
 };
 
-const closeMessage = (evt) => {
+const onWindowCloseErrorMessage = (evt) => {
   // закрытие по клавише ESC
   // по кнопке
   // по пространству вне блока
   evt.stopPropagation();
 
   const currentElement = document.querySelector('.success') || document.querySelector('.error');
-
   const closeButton = currentElement.querySelector('button');
 
   if (evt.target === currentElement || evt.target === closeButton || isEscapeKey(evt)) {
+    body.removeEventListener('click', onWindowCloseErrorMessage);
+    body.removeEventListener('keydown', onWindowCloseErrorMessage);
     currentElement.remove();
-    body.removeEventListener('click', closeMessage);
-    body.removeEventListener('keydown', closeMessage);
   }
 };
 
-const showMessage = (value, trigger = null) => {
+const showErrorMessage = (value, trigger = null) => {
   trigger?.();
   const MessageTemplate = document.querySelector(`#${value}`)
     .content
     .querySelector(`.${value}`);
   const MessageElement = MessageTemplate.cloneNode(true);
   body.append(MessageElement);
-  body.addEventListener('click', closeMessage);
-  body.addEventListener('keydown', closeMessage);
+  body.addEventListener('click', onWindowCloseErrorMessage);
+  body.addEventListener('keydown', onWindowCloseErrorMessage);
 };
 
 const debounce = (callback, timeoutDelay = 500) => {
@@ -85,4 +84,4 @@ const debounce = (callback, timeoutDelay = 500) => {
 };
 
 export {extractNumber, createCountCommentsLoader,
-  debounce, isEscapeKey, showMessage, showMessageError,};
+  debounce, isEscapeKey, showErrorMessage, showErrorMessageUploadData };

@@ -21,17 +21,19 @@ const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const SubmitButtonText = {
+const TextOnButtonSubmit = {
   IDLE: 'Сохранить',
   SENDING: 'Сохраняю...'
 };
 
+const PATTERN_HASHTAG = /^(#[a-zа-я0-9]{1,19})*$/i;
+
 const MAX_HASHTAGS = 5;
 
 const ScaleOptions = {
-  max: 100,
-  min: 25,
-  step: 25,
+  MAX: 100,
+  MIN: 25,
+  STEP: 25,
 };
 
 const sliderOptionsMarvinDefault = {
@@ -95,5 +97,5 @@ const StyleFilterByEffects = {
 };
 
 export { Effects, StyleFilterByEffects, ScaleOptions,
-  ACTIVE_BUTTON_CLASS, FILE_TYPES, SubmitButtonText, MAX_HASHTAGS,
+  ACTIVE_BUTTON_CLASS, FILE_TYPES, TextOnButtonSubmit, PATTERN_HASHTAG, MAX_HASHTAGS,
   COMMENT_COUNT_LOADER, BASE_URL, Route, Method, ErrorText };
