@@ -6,10 +6,10 @@ let startIndex = createCountCommentsLoader();
 
 const commentContainer = document.querySelector('.social__comments');
 const bigPicture = document.querySelector('.big-picture');
-const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentLoad = bigPicture.querySelector('.comments-loader');
 const commentSample = commentContainer.querySelector('.social__comment');
-const commentsCount = bigPicture.querySelector('.social__comment-count');
-const commentShownCount = commentsCount.querySelector('.social__comment-shown-count');
+const commentCount = bigPicture.querySelector('.social__comment-count');
+const commentShownCount = commentCount.querySelector('.social__comment-shown-count');
 
 const renderCommit = function ({avatar, message, name}) {
 
@@ -23,18 +23,18 @@ const renderCommit = function ({avatar, message, name}) {
 
 };
 
-const getComments = function () {
+const onCommentLoadClick = function () {
 
   const commentsListFragment = document.createDocumentFragment();
   const start = startIndex();
   let count = COMMENT_COUNT_LOADER + start;
-  const newListComments = listComments.slice(start, count);
+  const сomments = listComments.slice(start, count);
 
-  if (listComments.length < count || newListComments.length < count) {
+  if (listComments.length < count || сomments.length < count) {
     count = listComments.length;
   }
 
-  newListComments.forEach((comment) => {
+  сomments.forEach((comment) => {
     const renderCommitElement = renderCommit(comment);
     commentsListFragment.appendChild(renderCommitElement);
 
@@ -44,25 +44,25 @@ const getComments = function () {
   commentShownCount.textContent = commentContainer.children.length;
 
   if (listComments.length === commentContainer.children.length) {
-    commentsLoader.classList.add('hidden');
+    commentLoad.classList.add('hidden');
   }
 };
 
-const renderComments = (currntComments) => {
+const getComments = (currntComments) => {
 
   commentContainer.innerHTML = '';
   listComments = currntComments;
-  getComments();
-  commentsLoader.addEventListener('click', getComments);
+  onCommentLoadClick();
+  commentLoad.addEventListener('click', onCommentLoadClick);
 
 };
 
 const clearComments = function () {
 
   startIndex = createCountCommentsLoader();
-  commentsLoader.classList.add('hidden');
-  commentsLoader.removeEventListener('click', getComments);
+  commentLoad.classList.add('hidden');
+  commentLoad.removeEventListener('click', onCommentLoadClick);
 
 };
 
-export { renderComments, clearComments };
+export { getComments, clearComments };

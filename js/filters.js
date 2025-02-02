@@ -24,7 +24,7 @@ const getFilterData = () => {
   debounceRender(filterPhotos);
 };
 
-const onFilterChange = (evt) => {
+const onFilterClick = (evt) => {
   const targetButton = evt.target;
   const activeButton = filtersContainer.querySelector(`.${ACTIVE_BUTTON_CLASS}`);
 
@@ -41,7 +41,7 @@ const onFilterChange = (evt) => {
 const createFilterGallery = function (data) {
   dataPhotos = data;
   filtersContainer.classList.remove(ACTIVE_BUTTON_CLASS);
-  filtersContainer.addEventListener('click', onFilterChange);
+  filtersContainer.addEventListener('click', onFilterClick);
 };
 
 export { createFilterGallery };

@@ -30,7 +30,7 @@ const resetEffects = () => {
   img.classList.remove('effects__preview--none');
 };
 
-const onChangeEffect = function (evt) {
+const onEffectChange = function (evt) {
   const currentButton = evt.target.closest('.effects__radio');
   if (currentButton) {
     const effectBtnValue = currentButton.value;
@@ -74,4 +74,4 @@ effectLevelSlider.noUiSlider.on('update', () => {
   });
 });
 
-export { onChangeEffect, resetEffects };
+export { onEffectChange, resetEffects };

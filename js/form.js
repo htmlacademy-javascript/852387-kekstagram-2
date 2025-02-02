@@ -1,7 +1,8 @@
-import { SubmitButtonText, MAX_HASHTAGS } from './const.js';
-import { isEscapeKey, showMessage } from './util.js';
-import { onChangeEffect, resetEffects } from './effects.js';
-import { onClickScaleControl, resetScale } from './scale-photo.js';
+import { TextOnButtonSubmit } from './const.js';
+import { pristine } from './validate.js';
+import { isEscapeKey, showErrorMessage } from './util.js';
+import { onEffectChange, resetEffects } from './effects.js';
+import { onScaleClick, resetScale } from './scale-photo.js';
 import { upLoadFile } from './loadPhoto.js';
 import { sendData } from './api.js';
 
@@ -17,17 +18,34 @@ const imgUploadEffects = form.querySelector('.img-upload__effects');
 const imgUploadEffectLevel = form.querySelector('.img-upload__effect-level');
 const submitButton = form.querySelector('.img-upload__submit');
 
-const PATTERN = /^(#[a-zа-я0-9]{1,19})*$/i;
-let errorMessage = '';
-
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
+  submitButton.textContent = TextOnButtonSubmit.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+  submitButton.textContent = TextOnButtonSubmit.IDLE;
+};
+
+const closeUploadModal = () => {
+
+  resetEffects();
+  pristine.reset();
+  resetScale();
+  form.reset();
+
+  unblockSubmitButton();
+
+  uploadModal.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  buttonClose.removeEventListener('click', () => {
+    closeUploadModal();
+  });
+  uploadScale.removeEventListener('click', onScaleClick);
+  imgUploadEffects.removeEventListener('change', onEffectChange);
+
 };
 
 const onDocumentKeydown = (evt) => {
@@ -42,35 +60,7 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__field-wrapper',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'img-upload__field-wrapper--error'
-});
-
-function closeUploadModal () {
-
-  resetEffects();
-  pristine.reset();
-  resetScale();
-  form.reset();
-
-  unblockSubmitButton();
-
-  uploadModal.classList.add('hidden');
-  body.classList.remove('modal-open');
-
-  document.removeEventListener('keydown', onDocumentKeydown);
-
-  buttonClose.addEventListener('click', () => {
-    closeUploadModal();
-  });
-  uploadScale.removeEventListener('click', onClickScaleControl);
-  imgUploadEffects.removeEventListener('change', onChangeEffect);
-
-}
-
-const onChangeUploadFile = (evt) => {
+const onFileUpload = (evt) => {
   evt.preventDefault();
 
   upLoadFile();
@@ -85,8 +75,8 @@ const onChangeUploadFile = (evt) => {
   buttonClose.addEventListener('click', () => {
     closeUploadModal();
   });
-  uploadScale.addEventListener('click', onClickScaleControl);
-  imgUploadEffects.addEventListener('change', onChangeEffect);
+  uploadScale.addEventListener('click', onScaleClick);
+  imgUploadEffects.addEventListener('change', onEffectChange);
 };
 
 const sendFormData = async (formElement) => {
@@ -96,71 +86,24 @@ const sendFormData = async (formElement) => {
 
     try {
       await sendData(new FormData (formElement));
-      showMessage('success', () => {
+      showErrorMessage('success', () => {
         closeUploadModal();
+        document.removeEventListener('keydown', onDocumentKeydown);
       });
     } catch (error) {
-      showMessage('error');
+      showErrorMessage('error');
     } finally {
       unblockSubmitButton();
     }
   }
 };
 
-const formSubmitHandler = (evt) => {
+const onFormSubmit = (evt) => {
   evt.preventDefault();
   sendFormData(evt.target);
 };
 
-const validateHashtags = (value) => {
-  errorMessage = '';
-  const inputValue = value.trim().toUpperCase();
-
-  const hashtags = inputValue.split(' ').filter(Boolean);
-
-  const rules = [
-    {
-      test: hashtags === '' || hashtags.every((hashtag) => PATTERN.test(hashtag)),
-      error: 'введён невалидный хэштег',
-    },
-    {
-      test: hashtags.length <= MAX_HASHTAGS,
-      error: 'превышено количество хэштегов',
-    },
-    {
-      test: !hashtags.some((item, index) => hashtags.indexOf(item.toUpperCase()) < index),
-      error: 'хэштеги повторяются'
-    },
-  ];
-
-  return rules.every((rule) => {
-    const isValid = rule.test;
-    if(!isValid) {
-      errorMessage = rule.error;
-    }
-    return isValid;
-  });
-};
-
-const getHashtagsErrorMessage = () => errorMessage;
-
-pristine.addValidator(
-  hashtagsField,
-  validateHashtags,
-  getHashtagsErrorMessage
-);
-
-function validateDescription (value) {
-  return value.trim().length < 140;
-}
-
-pristine.addValidator(
-  descriptionField,
-  validateDescription,
-  'длина комментария больше 140 символов'
-);
-
-uploadFile.addEventListener('change', onChangeUploadFile);
+uploadFile.addEventListener('change', onFileUpload);
 form.addEventListener('reset', () => {
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -168,6 +111,6 @@ form.addEventListener('reset', () => {
   resetScale();
   resetEffects();
 });
-form.addEventListener('submit', formSubmitHandler);
+form.addEventListener('submit', onFormSubmit);
 
 export { form, closeUploadModal };
