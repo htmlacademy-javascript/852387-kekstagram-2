@@ -17,6 +17,7 @@ const imgUploadEffects = form.querySelector('.img-upload__effects');
 const imgUploadEffectLevel = form.querySelector('.img-upload__effect-level');
 const submitButton = form.querySelector('.img-upload__submit');
 
+const PATTERN = /^(#[a-zа-я0-9]{1,19})*$/i;
 let errorMessage = '';
 
 const blockSubmitButton = () => {
@@ -114,13 +115,12 @@ const formSubmitHandler = (evt) => {
 const validateHashtags = (value) => {
   errorMessage = '';
   const inputValue = value.trim().toUpperCase();
-  const pattern = /^(#[a-zа-я0-9]{1,19})*$/i;
 
   const hashtags = inputValue.split(' ').filter(Boolean);
 
   const rules = [
     {
-      test: hashtags === '' || hashtags.every((hashtag) => pattern.test(hashtag)),
+      test: hashtags === '' || hashtags.every((hashtag) => PATTERN.test(hashtag)),
       error: 'введён невалидный хэштег',
     },
     {
